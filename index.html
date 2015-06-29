@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html ng-app="">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href = "static/bootstrap/3.34/css/bootstrap.min.css">
+</head>
+
+<body ng-controller="AppController">
+<div class="container">
+  <ul id="myTab" class="nav nav-tabs">
+     <li class="dropdown">
+        <a href="#" id="myTabDrop_home" class="dropdown-toggle" 
+           data-toggle="dropdown">{{hello}}Home
+           <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop_home">
+           <li><a href="#login" tabindex="-1" data-toggle="tab">login</a></li>
+           <li><a href="#register" tabindex="-1" data-toggle="tab">register</a></li>
+        </ul>
+     </li>
+     <li><a href="#book" data-toggle="tab">Book</a></li>
+     <li><a href="#reading_list" data-toggle="tab">Reading List</a></li>
+  </ul>
+  <div class="tab-content">
+     <div class="tab-pane fade" id="register">
+        <h3>New User</h3>
+          <div class="form-group">
+            <label>username:</label>
+            <input class="form-control" type="text" ng-model="username_reg" placeholder="input your username">
+          </div> 
+          <div class="form-group">
+            <label>password:</label>
+            <input class="form-control" type="password" ng-model="pwd1_reg" placeholder="input the password">
+          </div>
+          <div class="form-group">
+            <label>password retry:</label>
+            <input class="form-control" type="password" ng-model="pwd2_reg" placeholder="input the password again">
+          </div>
+        <p style="color:red;">{{message_reg}}</p>
+        <button class="btn btn-success" ng-click="register();">
+          <span class="glyphicon glyphicon-user"></span>Submit
+        </button>
+     </div>
+     <div class="tab-pane fade in active" id="login">
+        <h3>User Login</h3>
+          <div class="form-group">
+            <label>username:</label>
+            <input class="form-control" type="text" ng-model="username_login" placeholder="input your username">
+          </div> 
+          <div class="form-group">
+            <label>password:</label>
+            <input class="form-control" type="password" ng-model="pwd_login" placeholder="input the password">
+          </div>
+        <p style="color:red;">{{message_login}}</p>
+        <button class="btn btn-success" ng-click="login();">
+          <span class="glyphicon glyphicon-user"></span>Submit
+        </button>
+     </div>
+     <div class="tab-pane fade" id="book">
+        <h3>Search Books</h3>
+        <form class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">ISBN/NAME:</div>
+              <input type="text" class="form-control input-large" placeholder="input here" ng-model="query_book">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" ng-click="search();">Search</button>
+        </form>
+        <hr>
+        <div>{{message_search}}</div>
+        <div class="row">
+          <div class="col-md-2" ng-repeat="item in search_items" style="height:280px;">
+              <a href="#" ng-click="viewItem('book',$index);" data-toggle="modal" data-target="#detailModal"><img class="img-responsive" src="{{item.volumeInfo.imageLinks.smallThumbnail}}" title="{{item.volumeInfo.title}}" /></a>
+            <div><a href="{{item.volumeInfo.infoLink}}">{{item.volumeInfo.title}}</a></div>
+            <div>{{item.volumeInfo.authors[0]}}</div>
+            <div>{{item.volumeInfo.publisher}}<button type="button" class="btn btn-default close" ng-click="addItem($index);" style="opacity:0.9;"><span class="glyphicon glyphicon-heart" style="color:red; opacity: {{item.liked?1.0:0.3}}"></span></button></div>
+          </div>
+        </div>
+     </div>
+     <div class="tab-pane fade" id="reading_list">
+        <h3>My Collections<button type="button" class="btn btn-default close" ng-click="listItems();"> <span class="glyphicon glyphicon-refresh"></span></button></h3>
+        <hr>
+        <div>{{message_collection}}</div>
+        <div class="row">
+          <div class="col-md-2" ng-repeat="item in reading_items" style="height:280px;">
+              <div><button type="button" class="btn btn-default close" ng-click="deleteItem($index);" style="opacity:0.9;"><span class="glyphicon glyphicon-remove"></span></button></div>
+              <a href="#" ng-click="viewItem('reading',$index);" data-toggle="modal" data-target="#detailModal"><img class="img-responsive" src="{{item.volumeInfo.imageLinks.smallThumbnail}}" title="{{item.volumeInfo.title}}" /></a>
+            <div><a href="{{item.volumeInfo.infoLink}}">{{item.volumeInfo.title}}</a></div>
+            <div>{{item.volumeInfo.authors[0]}}</div>
+            <div>{{item.volumeInfo.publisher}}</div>
+          </div>
+        </div>
+     </div>
+  </div>
+</div>
+<script src= "static/scripts/angular.min.js"></script>
+<script src= "static/scripts/app.js"></script>
+<script src= "static/scripts/jquery.min.js"></script>
+<script src= "static/bootstrap/3.34/js/bootstrap.min.js"></script>
+</body>
+</html>
+            
